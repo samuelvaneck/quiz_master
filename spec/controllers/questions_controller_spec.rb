@@ -28,6 +28,17 @@ RSpec.describe QuestionsController do
     end
   end
 
+  describe '#GET show' do
+    before { get :show, params: { id: question_one.id } }
+    it 'assigns the request question by id as @question' do
+      expect(assigns(:question)).to eq question_one
+    end
+
+    it 'renders the show template' do
+      expect(response).to render_template :show
+    end
+  end
+
   describe '#GET new' do
     before { get :new }
     it 'assigns a new Qeustion as @question' do
@@ -40,6 +51,24 @@ RSpec.describe QuestionsController do
 
     it 'renders the new template' do
       expect(response).to render_template :new
+    end
+  end
+
+  describe '#POST create' do
+    context 'with valid params' do
+      it 'saved the question to the database' do
+        expect {
+          post :create, params: { question: { content: Faker::Lorem.sentence, position: Faker::Number.number(digits: 4) } }
+        }.to change(Question, :count).by(1)
+      end
+    end
+
+    context 'with invalid params' do
+      it 'does not save the question to the database' do
+        expect {
+          post :create, params: { question: { content: nil, position: Faker::Number.digit } }
+        }.to change(Question, :count).by(0)
+      end
     end
   end
 end
