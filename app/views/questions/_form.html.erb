@@ -1,7 +1,11 @@
-<%= for_for @question do |f| %>
+<%= form_for @question do |f| %>
   <div>
     <%= f.label :content %>
     <%= f.text_field :content %>
+  </div>
+  <div>
+    <%= f.label :position %>
+    <%= f.number_field :position, value: Question.all.count %>
   </div>
   <div>
     <%= f.submit %>

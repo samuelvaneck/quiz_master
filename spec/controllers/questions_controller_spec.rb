@@ -27,4 +27,19 @@ RSpec.describe QuestionsController do
       expect(response).to render_template :index
     end
   end
+
+  describe '#GET new' do
+    before { get :new }
+    it 'assigns a new Qeustion as @question' do
+      expect(assigns(:question)).to be_a_new Question
+    end
+
+    it 'assigns an unsaved question' do
+      expect(assigns(:question)).to_not be_persisted
+    end
+
+    it 'renders the new template' do
+      expect(response).to render_template :new
+    end
+  end
 end
