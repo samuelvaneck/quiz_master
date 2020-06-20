@@ -1,0 +1,20 @@
+<%= form_for [@question, @awnser] do |f| %>
+  <div>
+    <%= f.label :content %>
+    <%= f.text_field :content %>
+  </div>
+
+  <div>
+    <%= f.label :score %>
+    <%= f.number_field :score %>
+  </div>
+
+  <div>
+    <%= f.label :question %>
+    <%= f.collection_select :question, Question.all, :id, :content %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

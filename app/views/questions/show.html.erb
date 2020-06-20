@@ -1,1 +1,11 @@
 <%= @question.content %>
+
+<% @question.awnsers.each do |awnser| %>
+  <div>
+    <%= awnser.content %> | <%= link_to 'Edit awnser', edit_question_awnser_path(@question, awnser) %>
+  </div>
+<% end %>
+
+<div>
+  <%= link_to 'Edit question', edit_question_path(@question) %>
+</div>
