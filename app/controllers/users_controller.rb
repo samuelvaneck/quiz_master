@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
-
 class UsersController < ApplicationController
+  def new
+    @user = User.new
+  end
+
   def create
     @user = User.create user_params
     respond_with @user

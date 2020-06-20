@@ -8,3 +8,87 @@ Migrating to CreateUsers (20200620103014)
   [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
   [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(6576896888614203480)[0m
   [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/" for ::1 at 2020-06-20 14:14:30 +0200
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+LoadError (cannot load such file -- rails_helper):
+  
+app/controllers/users_controller.rb:3:in `<main>'
+Started GET "/" for ::1 at 2020-06-20 14:15:15 +0200
+  
+LoadError (cannot load such file -- rails_helper):
+  
+app/controllers/users_controller.rb:3:in `<main>'
+Started GET "/" for ::1 at 2020-06-20 14:15:34 +0200
+Processing by UsersController#new as HTML
+  Rendering users/new.html.erb within layouts/application
+  Rendered users/new.html.erb within layouts/application (Duration: 1.5ms | Allocations: 1014)
+Completed 500 Internal Server Error in 52ms (ActiveRecord: 8.4ms | Allocations: 5542)
+
+
+  
+ActionView::Template::Error (wrong number of arguments (given 1, expected 0)):
+    1: <% form_with @user do |f| %>
+    2:   <%= f.label :name %>
+    3:   <%= f.text_field :name %>
+    4:   <%= f.submit %>
+  
+app/views/users/new.html.erb:1
+Started PUT "/__web_console/repl_sessions/9617616eb8cae141e1854f67e96c6c93" for ::1 at 2020-06-20 14:15:43 +0200
+Started PUT "/__web_console/repl_sessions/9617616eb8cae141e1854f67e96c6c93" for ::1 at 2020-06-20 14:15:44 +0200
+Started GET "/" for ::1 at 2020-06-20 14:17:19 +0200
+Processing by UsersController#new as HTML
+  Rendering users/new.html.erb within layouts/application
+  Rendered users/new.html.erb within layouts/application (Duration: 166.8ms | Allocations: 184718)
+[Webpacker] Compiling...
+[Webpacker] Compiled all packs in /home/samuel/repo/quiz_master/public/packs
+[Webpacker] Hash: 15d1bb7b54cf6326b9ba
+Version: webpack 4.43.0
+Time: 1752ms
+Built at: 06/20/2020 2:17:22 PM
+                                     Asset       Size       Chunks                         Chunk Names
+    js/application-9afcbb5693aa87623e69.js    124 KiB  application  [emitted] [immutable]  application
+js/application-9afcbb5693aa87623e69.js.map    139 KiB  application  [emitted] [dev]        application
+                             manifest.json  364 bytes               [emitted]              
+Entrypoint application = js/application-9afcbb5693aa87623e69.js js/application-9afcbb5693aa87623e69.js.map
+[./app/javascript/channels sync recursive _channel\.js$] ./app/javascript/channels sync _channel\.js$ 160 bytes {application} [built]
+[./app/javascript/channels/index.js] 211 bytes {application} [built]
+[./app/javascript/packs/application.js] 749 bytes {application} [built]
+[./node_modules/webpack/buildin/module.js] (webpack)/buildin/module.js 552 bytes {application} [built]
+    + 3 hidden modules
+
+Completed 200 OK in 3594ms (Views: 3592.9ms | ActiveRecord: 0.0ms | Allocations: 199082)
+
+
+Started GET "/" for ::1 at 2020-06-20 14:17:30 +0200
+Processing by UsersController#new as HTML
+  Rendering users/new.html.erb within layouts/application
+  Rendered users/new.html.erb within layouts/application (Duration: 4.3ms | Allocations: 669)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 22ms (Views: 20.4ms | ActiveRecord: 0.0ms | Allocations: 4882)
+
+
+Started POST "/users" for ::1 at 2020-06-20 14:17:59 +0200
+Processing by UsersController#create as HTML
+  Parameters: {"authenticity_token"=>"LklpktlEffxrMHNW6LvhXl6jiWNweEfRwsG+JP30q90jMfmbnXremHbL+SfpFzTc3kVQmMgwb9RSUKly5gKizg==", "user"=>{"name"=>"Samuel"}, "commit"=>"Create User"}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:9:in `create'
+  [1m[36mUser Create (1.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["name", "Samuel"], ["created_at", "2020-06-20 12:17:59.704633"], ["updated_at", "2020-06-20 12:17:59.704633"]]
+  ↳ app/controllers/users_controller.rb:9:in `create'
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:9:in `create'
+Redirected to http://localhost:3000/users/1
+Completed 302 Found in 11ms (ActiveRecord: 2.5ms | Allocations: 5318)
+
+
+Started GET "/users/1" for ::1 at 2020-06-20 14:17:59 +0200
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:14:in `show'
+  Rendering users/show.html.erb within layouts/application
+  Rendered users/show.html.erb within layouts/application (Duration: 0.4ms | Allocations: 89)
+[Webpacker] Everything's up-to-date. Nothing to do
+Completed 200 OK in 11ms (Views: 5.7ms | ActiveRecord: 0.7ms | Allocations: 4622)
+
+

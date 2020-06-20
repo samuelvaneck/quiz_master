@@ -5,6 +5,21 @@ require 'rails_helper'
 describe UsersController do
   let(:user) { FactoryBot.create :user }
 
+  describe 'GET #new' do
+    before { get :new }
+    it 'assigns a new unsaved user as @user' do
+      expect(assigns(:user)).to be_a_new User
+    end
+
+    it 'assigns an unsaved User' do
+      expect(assigns(:user)).to_not be_persisted
+    end
+
+    it 'renders the new template' do
+      expect(response).to render_template :new
+    end
+  end
+
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new user' do
