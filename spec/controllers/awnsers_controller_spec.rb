@@ -77,4 +77,52 @@ RSpec.describe AwnsersController do
       expect(response).to render_template :edit
     end
   end
+
+  describe '#PUT update' do
+    context 'with valid params' do
+      before { put :update, params: { question_id: question.id, id: awnser_one.id, awnser: { content: 'test update' } } }
+      it 'updates the question with the new values' do
+        awnser_one.reload
+
+        expect(awnser_one.content).to eq 'test update'
+      end
+      
+      it 'redirects to the question page' do
+        expect(response).to redirect_to question
+      end
+    end
+
+    context 'with invalid params' do
+      before { put :update, params: { question_id: question.id, id: awnser_one.id, awnser: { content: '' } } }
+      it 'does not save the new values to the database' do
+        awnser_one.reload
+        expect(awnser_one.content).to_not eq ''
+      end
+
+      it 'renders the edit template' do
+        expect(response).to redirect_to question
+      end
+    end
+  end
+
+  describe '#DELETE destroy' do
+    before { awnser_one }
+    it 'assigsn the requested awnser as @anwser' do
+      delete :destroy, params: { question_id: question.id, id: awnser_one.id }
+
+      expect(assigns(:awnser)).to eq awnser_one
+    end
+
+    it 'removes the awnser from the database' do
+      expect {
+        delete :destroy, params: { question_id: question.id, id: awnser_one.id }
+      }.to change(Awnser, :count).by(-1)
+    end
+
+    it 'redirects to the question page' do
+      delete :destroy, params: { question_id: question.id, id: awnser_one.id }
+      
+      expect(response).to redirect_to question
+    end
+  end
 end

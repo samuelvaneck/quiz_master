@@ -13,16 +13,16 @@ class AwnsersController < ApplicationController
     respond_with @question
   end
 
-  def edit
-    
-  end
+  def edit; end
 
   def update
-
+    @awnser.update awnser_params
+    respond_with @question
   end
 
   def destroy
-
+    @awnser.destroy
+    respond_with @question
   end
 
   private
