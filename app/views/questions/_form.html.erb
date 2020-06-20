@@ -1,0 +1,9 @@
+<%= for_for @question do |f| %>
+  <div>
+    <%= f.label :content %>
+    <%= f.text_field :content %>
+  </div>
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>

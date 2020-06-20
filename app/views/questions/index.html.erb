@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <th>Position</th>
+    <th>Content</th>
+    <th>Awnsers</th>
+    <th>Score</th>
+  </thead>
+  <tbody>
+    <% @questions.each do |question| %>
+      <td><%= question.position %></td>
+      <td><%= question.content %></td>
+      <td><%= link_to 'edit', edit_question_path(question) %></td>
+      <td><%= link_to 'destroy', destroy_question_path(question) %></td>
+    <% end %>
+  </tbody>
+</table>
