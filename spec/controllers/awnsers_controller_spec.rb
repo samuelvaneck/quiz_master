@@ -29,6 +29,12 @@ RSpec.describe AwnsersController do
 
   describe '#POST create' do
     context 'with valid params' do
+      it 'assigsn the requested question as @question' do
+        post :create, params: { question_id: question.id, awnser: { content: Faker::Lorem.sentence, score: Faker::Number.number(digits: 4) } }
+
+        expect(assigns(:question)).to eq question
+      end
+
       it 'saves the new awsner to the database' do
         expect {
           post :create, params: { question_id: question.id, awnser: { content: Faker::Lorem.sentence, score: Faker::Number.number(digits: 4) } }
@@ -43,7 +49,32 @@ RSpec.describe AwnsersController do
     end
 
     context 'with invalid params' do
-      
+      it 'does not save the new values to the database' do
+        expect {
+          post :create, params: { question_id: question.id, awnser: { content: '', score: Faker::Number.number(digits: 4) } }
+        }.to change(Awnser, :count).by(0)
+      end
+
+      it 'assigsn the requested question as @question' do
+        post :create, params: { question_id: question.id, awnser: { content: Faker::Lorem.sentence, score: Faker::Number.number(digits: 4) } }
+
+        expect(assigns(:question)).to eq question
+      end
+    end
+  end
+
+  describe '#GET edit' do
+    before { get :edit, params: { question_id: question.id, id: awnser_one.id } }
+    it 'assigsn the requested question as @question' do
+      expect(assigns(:question)).to eq question
+    end
+
+    it 'assigns the requested awnser as @anwser' do
+      expect(assigns(:awnser)).to eq awnser_one
+    end
+
+    it 'renders the edit template' do
+      expect(response).to render_template :edit
     end
   end
 end

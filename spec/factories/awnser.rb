@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :awnser do
-    content { Faker::Lorem.sentense }
+    content { Faker::Lorem.sentence }
     score { Faker::Number.number(digits: 4) }
   end
 end

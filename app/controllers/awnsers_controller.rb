@@ -2,6 +2,7 @@
 
 class AwnsersController < ApplicationController
   before_action :set_question
+  before_action :set_awnser, only: [:edit, :update, :destroy]
 
   def new
     @awnser = @question.awnsers.build
@@ -32,5 +33,9 @@ class AwnsersController < ApplicationController
 
   def set_question
     @question = Question.find params[:question_id]
+  end
+
+  def set_awnser
+    @awnser = @question.awnsers.find params[:id]
   end
 end

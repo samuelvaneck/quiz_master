@@ -6,5 +6,5 @@ class Question < ApplicationRecord
   validates :content, :position, presence: true
   validates :position, uniqueness: true
 
-  accepts_nested_attributes_for :awnsers
+  accepts_nested_attributes_for :awnsers, reject_if: :all_blank,  allow_destroy: true
 end
