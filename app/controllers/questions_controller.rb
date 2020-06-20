@@ -20,11 +20,13 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def update
-
+    @question.update question_params
+    respond_with @question
   end
 
   def destroy
-
+    @question.destroy
+    redirect_to questions_path
   end
 
   private

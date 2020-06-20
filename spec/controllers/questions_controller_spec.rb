@@ -82,4 +82,57 @@ RSpec.describe QuestionsController do
       expect(response).to render_template :edit
     end
   end
+
+  describe '#PUT update' do
+    context 'with valid params' do
+      before do
+        put :update, params: { id: question_one.id, question: { content: 'Question one test udpate' } }
+      end
+      it 'updates the question in the databas with the new values' do
+        question_one.reload
+
+        expect(question_one.content).to eq 'Question one test udpate'
+      end
+
+      it 'redirects to the show template' do
+        expect(response).to redirect_to question_one
+      end
+    end
+
+    context 'with invalid params' do
+      before do
+        put :update, params: { id: question_one.id, question: { content: '' } }
+      end
+      it 'does not save the new values in the database' do
+        question_one.reload
+
+        expect(question_one.content).to_not eq ''
+      end
+
+      it 'renders the edit template' do
+        expect(response).to render_template :edit
+      end
+    end
+  end
+
+  describe '#DELETE destroy' do
+    before { question_one }
+    it 'assigns the requested question as @question' do
+      delete :destroy, params: { id: question_one.id }
+      
+      expect(assigns(:question)).to eq question_one
+    end
+
+    it 'deletes the question from the database' do
+      expect {
+        delete :destroy, params: { id: question_one.id }
+      }.to change(Question, :count).by(-1)
+    end
+
+    it 'redirects to the index page' do
+      delete :destroy, params: { id: question_one.id }
+
+      expect(response).to redirect_to questions_path
+    end
+  end
 end
