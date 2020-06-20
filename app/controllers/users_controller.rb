@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'rails_helper'
+
 class UsersController < ApplicationController
   def create
     @user = User.create user_params
