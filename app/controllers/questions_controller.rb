@@ -6,14 +6,16 @@ class QuestionsController < ApplicationController
     @questions = Question.all.sort_by(&:position)
   end
 
-  def show; end
+  def show
+    @user = User.find params[:user_id] if params[:user_id].present?
+  end
 
   def new
     @question = Question.new
   end
 
   def create
-    @question = Question.create(question_params)
+    @question = Question.create!(question_params)
     respond_with @question
   end
 

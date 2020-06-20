@@ -8,33 +8,35 @@
   </thead>
   <tbody>
     <% @questions.each do |question| %>
-      <td><%= question.position %></td>
-      <td><%= question.content %></td>
-      <td>
-        <div>
-          <table>
-            <thead>
-              <th>Anwser</th>
-              <th>Score</th>
-            </thead>
-            <tbody>
-              <% question.awnsers.each do |awnser| %>
-                <tr>
-                  <td><%= awnser.content %></td>
-                  <td><%= awnser.score %></td>
-                </tr>
+      <tr>
+        <td><%= question.position %></td>
+        <td><%= question.content %></td>
+        <td>
+          <div>
+            <table>
+              <thead>
+                <th>Anwser</th>
+                <th>Score</th>
+              </thead>
+              <tbody>
+                <% question.awnsers.each do |awnser| %>
+                  <tr>
+                    <td><%= awnser.content %></td>
+                    <td><%= awnser.score %></td>
+                  </tr>
+                <% end %>
                 <tr>
                   <td colspan='2'>
                     <%= link_to 'New awnser', new_question_awnser_path(question) %>
                   </td>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </td>
-      <td><%= link_to 'edit', edit_question_path(question) %></td>
-      <td><%= link_to 'destroy', question_path(question), method: :delete %></td>
+              </tbody>
+            </table>
+          </div>
+        </td>
+        <td><%= link_to 'edit', edit_question_path(question) %></td>
+        <td><%= link_to 'destroy', question_path(question), method: :delete %></td>
+      </tr>
     <% end %>
   </tbody>
 </table>

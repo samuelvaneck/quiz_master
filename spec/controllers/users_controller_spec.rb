@@ -41,9 +41,11 @@ describe UsersController do
       end
 
       it 'renders the first quiz question (with the lowest postion)' do
-        post :create, params: { user: { name: Faker::Name.name } }
+        name = Faker::Name.name
+        post :create, params: { user: { name: name } }
+        user = User.find_by(name: name)
 
-        expect(response).to redirect_to question_five
+        expect(response).to render_template :quiz_question
       end
     end
 
