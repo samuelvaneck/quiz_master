@@ -71,4 +71,15 @@ RSpec.describe QuestionsController do
       end
     end
   end
+
+  describe '#GET edit' do
+    before { get :edit, params: { id: question_one.id } }
+    it 'is expected to assign the requested question as @question' do
+      expect(assigns(:question)).to eq question_one
+    end
+
+    it 'is expected to render the edit template' do
+      expect(response).to render_template :edit
+    end
+  end
 end

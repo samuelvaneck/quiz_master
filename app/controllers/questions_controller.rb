@@ -17,9 +17,7 @@ class QuestionsController < ApplicationController
     respond_with @question
   end
 
-  def edit
-
-  end
+  def edit; end
 
   def update
 
