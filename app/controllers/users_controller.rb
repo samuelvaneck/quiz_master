@@ -6,8 +6,13 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create user_params
-    respond_with @user
+    @user = User.new user_params
+    if @user.save
+      @question = Question.all.min_by(&:position)
+      respond_with @question
+    else
+      render :new
+    end
   end
 
   def show
