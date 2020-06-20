@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: 'users#new'
 
   resources :users
-  resources :questions
-  resources :awnsers
+  resources :questions do
+    resources :awnsers
+  end
 end

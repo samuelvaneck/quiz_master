@@ -5,4 +5,6 @@ class Question < ApplicationRecord
 
   validates :content, :position, presence: true
   validates :position, uniqueness: true
+
+  accepts_nested_attributes_for :awnsers
 end

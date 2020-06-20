@@ -8,6 +8,20 @@
     <%= f.number_field :position, value: Question.all.count %>
   </div>
   <div>
+    <% @question.awnsers.each do |awnser| %>
+      <%= f.fields_for :anwsers, awnser do |awnser_field| %>
+        <div>
+          <%= awnser_field.label :content %>
+          <%= awnser_field.text_field :content %>
+        </div>
+        <div>
+          <%= awnser_field.label :score %>
+          <%= awnser_field.number_field :score %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div>
     <%= f.submit %>
   </div>
 <% end %>

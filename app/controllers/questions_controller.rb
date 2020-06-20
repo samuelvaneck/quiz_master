@@ -32,7 +32,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:content, :position)
+    params.require(:question).permit(:content, :position, awnsers_attributes: [:content, :score])
   end
 
   def set_question
