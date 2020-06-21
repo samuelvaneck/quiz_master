@@ -82,13 +82,64 @@ describe UsersController do
     end
   end
 
+  describe '#GET quiz_question' do
+    before { get :quiz_question, params: { id: user.id, question_id: question_one.id } }
+    it 'assigns the requested user as @user' do
+      expect(assigns(:user)).to eq user
+    end
+
+    it 'assigns the requested question as @question' do
+      expect(assigns(:question)).to eq question_one
+    end
+
+    it 'renders the quiz_question template' do
+      expect(response).to render_template :quiz_question
+    end
+  end
+
+  describe '#POST quiz_awnser' do
+    before do
+      awnser_one
+      awnser_two
+      awnser_three
+      awnser_four
+      awnser_five
+    end
+    it 'assigns the requested user as @user' do
+      post :quiz_awnser, params: { id: user.id, awnser_id: awnser_one.id }
+
+      expect(assigns(:user)).to eq user
+    end
+
+    it 'adds the awnser to the user awnsers' do
+      post :quiz_awnser, params: { id: user.id, awnser_id: awnser_one.id }
+      user.reload
+
+      expect(user.awnsers).to include awnser_one
+    end
+
+    context 'with a next question' do
+      before { post :quiz_awnser, params: { id: user.id, awnser_id: awnser_one.id } }
+      it 'redirects to the next user_quiz_question' do
+        expect(response).to redirect_to user_quiz_question_path(user, question_id: awnser_two.question.id)
+      end
+    end
+
+    context 'with the last question' do
+      before { post :quiz_awnser, params: { id: user.id, awnser_id: awnser_five.id } }
+      it 'redirects to the user_quiz_results' do
+        expect(response).to redirect_to user_quiz_result_path(user)
+      end
+    end
+  end
+
   describe '#GET quiz_result' do
     context 'with not special additions' do
       before { get :quiz_result, params: { id: user.id } }
       it 'assigns the requested user as @user' do
         expect(assigns(:user)).to eq user
       end
-  
+
       it 'renders the quiz_result template' do
         expect(response).to render_template :quiz_result
       end
