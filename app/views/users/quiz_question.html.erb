@@ -1,19 +1,14 @@
 <%= @question.content %>
 <%= form_for :user, url: { controller: 'users', action: 'quiz_awnser' } do |f| %>
-  <% unless Question.all.max_by(&:position) == @question %>
-    <% next_question = Question.find_by(position: @question.position+1) %>
-    <%= hidden_field_tag :next_question, next_question.id %>
-  <% end %>
-
   <% @question.awnsers.each do |awnser| %>
     <p>
       <%= radio_button_tag :awnser_id, awnser.id, @user.awnsers.include?(awnser) %>
       <%= label_tag awnser.content %>
     </p>
   <% end %>
-  <% unless Question.all.min_by(&:position) == @question %>
-    <% previous_question = Question.find_by(position: @question.position-1) %>
-    <%= link_to 'Previous', user_quiz_question_path(@user, question_id: previous_question.id) %>
+  <% if @question.previous_question? %>
+    <%= link_to 'Previous', user_quiz_question_path(@user, question_id: @question.previous_question.id) %>
   <% end %>
-  <%= f.submit 'Submit' %>
+
+  <%= f.submit @question.next_question? ? 'Next' : 'Result' %>
 <% end %>

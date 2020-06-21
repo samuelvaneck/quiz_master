@@ -27,11 +27,11 @@ class UsersController < ApplicationController
 
   def quiz_awnser
     awnser = Awnser.find params[:awnser_id]
-    user.process_awnser awnser
+    question = awnser.question
+    @user.process_awnser awnser
 
-    if params[:next_question].present?
-      next_question = Question.find params[:next_question]
-      redirect_to user_quiz_question_path(@user, question_id: next_question.id)
+    if question.next_question?
+      redirect_to user_quiz_question_path(@user, question_id: question.next_question.id)
     else
       redirect_to user_quiz_result_path(@user)
     end
