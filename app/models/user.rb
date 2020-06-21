@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates :name, presence: true
 
   def quiz_score
+    return 0 if awnsers.blank?
+
     awnsers.map(&:score).reduce(:+)
   end
 
@@ -22,5 +24,11 @@ class User < ApplicationRecord
 
   def quiz_reset
     awnsers.clear
+  end
+
+  def process_quiz_score
+    return false if self.quiz_score <= highscore
+
+    update(highscore: quiz_score)
   end
 end

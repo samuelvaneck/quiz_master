@@ -55,8 +55,43 @@ RSpec.describe User, type: :model do
     it 'removes all all awnsers from the user' do
       user.quiz_reset
       user.awnsers.reload
-      
+
       expect(user.awnsers.count).to eq 0
+    end
+  end
+
+  describe '#process_quiz_score' do
+    before do
+      user.awnsers << awnser_one
+      user.awnsers << awnser_two
+      user.awnsers << awnser_three
+      user.awnsers << awnser_four
+      user.awnsers << awnser_five
+    end
+    context 'when the quiz score is higher then the user highscore' do
+      before do
+        user.update(highscore: 50)
+        user.reload
+      end
+      it 'updates the user highscore with the quiz score' do
+        user.process_quiz_score
+        user.reload
+
+        expect(user.highscore).to eq 60
+      end
+    end
+
+    context 'when the quiz score is lower then or equal to the user highscore' do
+      before do
+        user.update(highscore: 100)
+        user.reload
+      end
+      it 'does not update the user highscroe' do
+        user.process_quiz_score
+        user.reload
+
+        expect(user.highscore).to eq 100
+      end
     end
   end
 end
