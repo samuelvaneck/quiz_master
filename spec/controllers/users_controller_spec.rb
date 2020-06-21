@@ -4,6 +4,11 @@ require 'rails_helper'
 
 describe UsersController do
   let(:user) { FactoryBot.create :user }
+  let(:question_one) { FactoryBot.create :question, position: 4 }
+  let(:question_two) { FactoryBot.create :question, position: 3 }
+  let(:question_three) { FactoryBot.create :question, position: 2 }
+  let(:question_four) { FactoryBot.create :question, position: 1  }
+  let(:question_five) { FactoryBot.create :question, position: 0  }
 
   describe 'GET #new' do
     before { get :new }
@@ -22,22 +27,64 @@ describe UsersController do
 
   describe 'POST #create' do
     context 'with valid params' do
+      before do
+        question_one
+        question_two
+        question_three
+        question_four
+        question_five
+      end
       it 'creates a new user' do
         expect {
           post :create, params: { user: { name: Faker::Name.name } }
         }.to change(User, :count).by(1)
       end
+
+      it 'renders the first quiz question (with the lowest postion)' do
+        name = Faker::Name.name
+        post :create, params: { user: { name: name } }
+        user = User.find_by(name: name)
+
+        expect(response).to redirect_to user_quiz_question_path(user, question_id: question_five.id)
+      end
+    end
+
+    context 'with invalid params' do
+      it 'does not create a user' do
+        expect {
+          post :create, params: { user: { name: '' } }
+        }.to change(User, :count).by(0)
+      end
+
+      it 'renders the new template' do
+        post :create, params: { user: { name: '' } }
+
+        expect(response).to render_template :new
+      end
     end
   end
 
   describe 'GET #show' do
-    before { user }
     context 'with id params' do
+      before { get :show, params: { id: user.id } }
       it 'assigns the requested users as @user' do
-        get :show, params: { id: user.id }
-
         expect(assigns(:user)).to eq user
       end
+
+      it 'renders the show template' do
+        expect(response).to render_template :show
+      end
+    end
+  end
+
+  describe '#GET quiz_result' do
+    before { get :quiz_result, params: { id: user.id } }
+    it 'assigns the requested user as @user' do
+      expect(assigns(:user)).to eq user
+    end
+
+    it 'renders the quiz_result template' do
+      expect(response).to render_template :quiz_result
     end
   end
 end

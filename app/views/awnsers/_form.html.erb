@@ -11,7 +11,7 @@
 
   <div>
     <%= f.label :question %>
-    <%= f.collection_select :question, Question.all, :id, :content %>
+    <%= f.collection_select :question, Question.all, :id, :content, selected: @question.id %>
   </div>
 
   <div>
