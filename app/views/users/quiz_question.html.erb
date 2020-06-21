@@ -1,14 +1,28 @@
-<%= @question.content %>
 <%= form_for :user, url: { controller: 'users', action: 'quiz_awnser' } do |f| %>
-  <% @question.awnsers.each do |awnser| %>
-    <p>
-      <%= radio_button_tag :awnser_id, awnser.id, @user.awnsers.include?(awnser) %>
-      <%= label_tag awnser.content %>
-    </p>
-  <% end %>
-  <% if @question.previous_question? %>
-    <%= link_to 'Previous', user_quiz_question_path(@user, question_id: @question.previous_question.id) %>
-  <% end %>
+  <div class="d-flex flex-column my-2">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <h4><%= @question.content %></h4>
+      </li>
+      <% @question.awnsers.each do |awnser| %>
+        <li class='list-group-item'>
+          <div class='custom-control custom-radio my-1'>
+            <%= radio_button_tag :awnser_id, awnser.id, @user.awnsers.include?(awnser), { class: 'custom-control-input', required: true } %>
+            <%= label_tag "awnser_id_#{awnser.id}", awnser.content, class: 'custom-control-label' %>
+          </div>
+        </li>
+      <% end %>
+      <li class="list-group-item d-flex flex-row">
+        <% if @question.previous_question? %>
+          <div class='mr-2'>
+            <%= link_to 'Previous', user_quiz_question_path(@user, question_id: @question.previous_question.id), class: 'btn btn-secondary' %>
+          </div>
+        <% end %>
+        <div>
+          <%= f.submit @question.next_question? ? 'Next' : 'Result', class: 'btn btn-primary' %>
+        </div>
+      </li>
+    </ul>
+  </div>
 
-  <%= f.submit @question.next_question? ? 'Next' : 'Result' %>
 <% end %>

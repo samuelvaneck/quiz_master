@@ -1,5 +1,13 @@
+<h4>Sign up to start the quiz</h4>
+
 <%= form_for @user do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <%= f.submit 'Begin' %>
+  <div class="d-flex flex-column">
+    <%= f.label :name %>
+    <div class="input-group">
+      <%= f.text_field :name, class: 'form-control' %>
+      <div class="input-group-append">
+        <%= f.submit 'Begin', class: 'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
 <% end %>

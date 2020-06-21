@@ -1,10 +1,16 @@
-<table>
+<table class='table table-bordered'>
   <thead>
-    <th>Position</th>
-    <th>Content</th>
-    <th>Awnsers</th>
-    <th></th>
-    <th></th>
+    <tr>
+      <td colspan='4'>
+        <%= link_to 'Add question', new_question_path, class: 'btn btn-primary' %>
+      </td>
+    </tr>
+    <tr>
+      <th>Position</th>
+      <th>Content</th>
+      <th>Awnsers</th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
     <% @questions.each do |question| %>
@@ -12,30 +18,37 @@
         <td><%= question.position %></td>
         <td><%= question.content %></td>
         <td>
-          <div>
-            <table>
-              <thead>
+          <table class='table'>
+            <thead>
+              <tr>
+                <td colspan='3' class='text-right'>
+                  <%= link_to 'Add awnser', new_question_awnser_path(question), class: 'btn btn-primary' %>
+                </td>
+              </tr>
+              <tr>
                 <th>Anwser</th>
                 <th>Score</th>
-              </thead>
-              <tbody>
-                <% question.awnsers.each do |awnser| %>
-                  <tr>
-                    <td><%= awnser.content %></td>
-                    <td><%= awnser.score %></td>
-                  </tr>
-                <% end %>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% question.awnsers.each do |awnser| %>
                 <tr>
-                  <td colspan='2'>
-                    <%= link_to 'New awnser', new_question_awnser_path(question) %>
+                  <td><%= awnser.content %></td>
+                  <td><%= awnser.score %></td>
+                  <td class='text-right'>
+                    <%= link_to 'Edit', edit_question_awnser_path(question, awnser), class: 'btn btn-secondary' %>
+                    <%= link_to 'Delete', question_awnser_path(question, awnser), method: :delete, class: 'btn btn-danger' %>
                   </td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
+              <% end %>
+            </tbody>
+          </table>
         </td>
-        <td><%= link_to 'edit', edit_question_path(question) %></td>
-        <td><%= link_to 'destroy', question_path(question), method: :delete %></td>
+        <td class='text-right'>
+          <%= link_to 'Edit', edit_question_path(question), class: 'btn btn-secondary' %>
+          <%= link_to 'Delete', question_path(question), method: :delete, class: 'btn btn-danger' %>
+        </td>
       </tr>
     <% end %>
   </tbody>
