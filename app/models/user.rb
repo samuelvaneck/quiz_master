@@ -19,4 +19,8 @@ class User < ApplicationRecord
     # add the new awnser
     awnsers << awnser
   end
+
+  def quiz_reset
+    awnsers.clear
+  end
 end

@@ -50,4 +50,13 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '#quiz_reset' do
+    it 'removes all all awnsers from the user' do
+      user.quiz_reset
+      user.awnsers.reload
+      
+      expect(user.awnsers.count).to eq 0
+    end
+  end
 end

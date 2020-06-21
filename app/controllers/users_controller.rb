@@ -39,6 +39,13 @@ class UsersController < ApplicationController
 
   def quiz_result; end
 
+  def quiz_reset
+    @user.quiz_reset
+    @question = Question.all.min_by(&:position)
+
+    redirect_to  user_quiz_question_path(@user, question_id: @question.id)
+  end
+
   private
 
   def user_params

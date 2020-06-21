@@ -87,4 +87,24 @@ describe UsersController do
       expect(response).to render_template :quiz_result
     end
   end
+
+  describe '#POST quiz_reset' do
+    before do
+      question_one
+      question_two
+      question_three
+      question_four
+      question_five
+      post :quiz_reset, params: { id: user.id }
+    end 
+    it 'deletes all the user awnsers from the database' do
+      user.awnsers.reload
+
+      expect(user.awnsers.count).to eq 0
+    end
+
+    it 'redirects to the first question' do
+      expect(response).to redirect_to user_quiz_question_path(user, question_id: question_five.id)
+    end
+  end
 end

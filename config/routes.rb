@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   get '/users/:id/quiz_question', to: 'users#quiz_question', as: 'user_quiz_question'
   post '/users/:id/quiz_awnser', to: 'users#quiz_awnser', as: 'user_quiz_awnser'
   get '/users/:id/quiz_result', to: 'users#quiz_result', as: 'user_quiz_result'
+  post '/users/:id/quiz_reset', to: 'users#quiz_reset', as: 'user_quiz_reset'
 end
