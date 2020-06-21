@@ -27,10 +27,7 @@ class UsersController < ApplicationController
 
   def quiz_awnser
     awnser = Awnser.find params[:awnser_id]
-    # remove any previous awnsers
-    @user.awnsers.delete(awnser) if @user.awnser_ids.include? awnser.id
-    # add the new awnser
-    @user.awnsers << awnser
+    user.process_awnser awnser
 
     if params[:next_question].present?
       next_question = Question.find params[:next_question]
