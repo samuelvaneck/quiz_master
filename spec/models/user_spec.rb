@@ -9,18 +9,46 @@ RSpec.describe User, type: :model do
   let(:awnser_three) { FactoryBot.create :awnser, :with_question, score: 5 }
   let(:awnser_four) { FactoryBot.create :awnser, :with_question, score: 20 }
   let(:awnser_five) { FactoryBot.create :awnser, :with_question, score: 10 }
+  let(:awnser_six) { FactoryBot.create :awnser, :with_question, score: -10 }
+  let(:awnser_seven) { FactoryBot.create :awnser, :with_question, score: 0 }
   let(:new_awnser) { FactoryBot.create :awnser, question: awnser_one.question }
 
   describe '#quiz_score' do
-    before do
-      user.awnsers << awnser_one
-      user.awnsers << awnser_two
-      user.awnsers << awnser_three
-      user.awnsers << awnser_four
-      user.awnsers << awnser_five
+    context 'with all positive scores' do
+      before do
+        user.awnsers << awnser_one
+        user.awnsers << awnser_two
+        user.awnsers << awnser_three
+        user.awnsers << awnser_four
+        user.awnsers << awnser_five
+      end
+      it 'adds up all the scrore from the user awnsers' do
+        expect(user.quiz_score).to eq 60
+      end
     end
-    it 'adds up all the scrore from the user awnsers' do
-      expect(user.quiz_score).to eq 60
+
+    context 'with a negative score' do
+      before do
+        user.awnsers << awnser_one
+        user.awnsers << awnser_two
+        user.awnsers << awnser_three
+        user.awnsers << awnser_six
+      end
+      it 'substracts the score from the user quiz score' do
+        expect(user.quiz_score).to eq 20
+      end
+    end
+
+    context 'with a score of zero' do
+      before do
+        user.awnsers << awnser_one
+        user.awnsers << awnser_two
+        user.awnsers << awnser_three
+        user.awnsers << awnser_seven
+      end
+      it 'the awnser does not effect the quiz score' do
+        expect(user.quiz_score).to eq 30
+      end
     end
   end
 
@@ -51,47 +79,47 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '#quiz_reset' do
-    it 'removes all all awnsers from the user' do
-      user.quiz_reset
-      user.awnsers.reload
+  # describe '#quiz_reset' do
+  #   it 'removes all all awnsers from the user' do
+  #     user.quiz_reset
+  #     user.awnsers.reload
 
-      expect(user.awnsers.count).to eq 0
-    end
-  end
+  #     expect(user.awnsers.count).to eq 0
+  #   end
+  # end
 
-  describe '#process_quiz_score' do
-    before do
-      user.awnsers << awnser_one
-      user.awnsers << awnser_two
-      user.awnsers << awnser_three
-      user.awnsers << awnser_four
-      user.awnsers << awnser_five
-    end
-    context 'when the quiz score is higher then the user highscore' do
-      before do
-        user.update(highscore: 50)
-        user.reload
-      end
-      it 'updates the user highscore with the quiz score' do
-        user.process_quiz_score
-        user.reload
+  # describe '#process_quiz_score' do
+  #   before do
+  #     user.awnsers << awnser_one
+  #     user.awnsers << awnser_two
+  #     user.awnsers << awnser_three
+  #     user.awnsers << awnser_four
+  #     user.awnsers << awnser_five
+  #   end
+  #   context 'when the quiz score is higher then the user highscore' do
+  #     before do
+  #       user.update(highscore: 50)
+  #       user.reload
+  #     end
+  #     it 'updates the user highscore with the quiz score' do
+  #       user.process_quiz_score
+  #       user.reload
 
-        expect(user.highscore).to eq 60
-      end
-    end
+  #       expect(user.highscore).to eq 60
+  #     end
+  #   end
 
-    context 'when the quiz score is lower then or equal to the user highscore' do
-      before do
-        user.update(highscore: 100)
-        user.reload
-      end
-      it 'does not update the user highscroe' do
-        user.process_quiz_score
-        user.reload
+  #   context 'when the quiz score is lower then or equal to the user highscore' do
+  #     before do
+  #       user.update(highscore: 100)
+  #       user.reload
+  #     end
+  #     it 'does not update the user highscroe' do
+  #       user.process_quiz_score
+  #       user.reload
 
-        expect(user.highscore).to eq 100
-      end
-    end
-  end
+  #       expect(user.highscore).to eq 100
+  #     end
+  #   end
+  # end
 end
