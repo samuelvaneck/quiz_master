@@ -37,7 +37,9 @@ class UsersController < ApplicationController
     end
   end
 
-  def quiz_result; end
+  def quiz_result
+    @user.process_quiz_score
+  end
 
   def quiz_reset
     @user.quiz_reset

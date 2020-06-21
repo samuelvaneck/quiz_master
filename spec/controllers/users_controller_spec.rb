@@ -9,6 +9,11 @@ describe UsersController do
   let(:question_three) { FactoryBot.create :question, position: 2 }
   let(:question_four) { FactoryBot.create :question, position: 1  }
   let(:question_five) { FactoryBot.create :question, position: 0  }
+  let(:awnser_one) { FactoryBot.create :awnser, :with_question, score: 10 }
+  let(:awnser_two) { FactoryBot.create :awnser, :with_question, score: 15 }
+  let(:awnser_three) { FactoryBot.create :awnser, :with_question, score: 5 }
+  let(:awnser_four) { FactoryBot.create :awnser, :with_question, score: 20 }
+  let(:awnser_five) { FactoryBot.create :awnser, :with_question, score: 10 }
 
   describe 'GET #new' do
     before { get :new }
@@ -78,13 +83,31 @@ describe UsersController do
   end
 
   describe '#GET quiz_result' do
-    before { get :quiz_result, params: { id: user.id } }
-    it 'assigns the requested user as @user' do
-      expect(assigns(:user)).to eq user
+    context 'with not special additions' do
+      before { get :quiz_result, params: { id: user.id } }
+      it 'assigns the requested user as @user' do
+        expect(assigns(:user)).to eq user
+      end
+  
+      it 'renders the quiz_result template' do
+        expect(response).to render_template :quiz_result
+      end
     end
 
-    it 'renders the quiz_result template' do
-      expect(response).to render_template :quiz_result
+    context 'when the quiz score is higher then the current highscore' do
+      before do
+        user.awnsers << awnser_one
+        user.awnsers << awnser_two
+        user.awnsers << awnser_three
+        user.awnsers << awnser_four
+        user.awnsers << awnser_five
+        user.update(highscore: 50)
+        get :quiz_result, params: { id: user.id }
+        user.reload
+      end
+      it 'updates the user highscore the the quiz score' do
+        expect(user.highscore).to eq 60
+      end
     end
   end
 
@@ -96,7 +119,7 @@ describe UsersController do
       question_four
       question_five
       post :quiz_reset, params: { id: user.id }
-    end 
+    end
     it 'deletes all the user awnsers from the database' do
       user.awnsers.reload
 
