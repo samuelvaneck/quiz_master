@@ -1,26 +1,27 @@
 <%= form_for @question do |f| %>
-  <div>
+  <div class='form-group'>
     <%= f.label :content %>
-    <%= f.text_field :content %>
+    <%= f.text_field :content, class: 'form-control' %>
   </div>
-  <div>
+  <div class='form-group'>
     <%= f.label :position %>
-    <%= f.number_field :position, value: Question.all.count+1 %>
+    <%= f.number_field :position, value: Question.all.count+1, class: 'form-control' %>
   </div>
-  <div>
+  <div class='form-group'>
     <h4>Awnsers</h4>
     <%= f.fields_for :awnsers do |fa| %>
-      <div>
+      <div class='form-group'>
         <%= fa.label :content %>
-        <%= fa.text_field :content %>
+        <%= fa.text_field :content, class: 'form-control' %>
       </div>
-      <div>
+      <div class='form-group'>
         <%= fa.label :score %>
-        <%= fa.number_field :score %>
+        <%= fa.number_field :score, class: 'form-control' %>
       </div>
     <% end %>
   </div>
   <div>
-    <%= f.submit %>
+    <%= link_to 'Cancel', questions_path, class: 'btn btn-secondary ml-2' %>
+    <%= f.submit nil, class: 'btn btn-primary' %>
   </div>
 <% end %>
