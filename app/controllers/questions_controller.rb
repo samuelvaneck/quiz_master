@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.create!(question_params)
+    @question = Question.create(question_params)
     respond_with @question
   end
 

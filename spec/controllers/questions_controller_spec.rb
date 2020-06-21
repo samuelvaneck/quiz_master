@@ -66,7 +66,7 @@ RSpec.describe QuestionsController do
     context 'with invalid params' do
       it 'does not save the question to the database' do
         expect {
-          post :create, params: { question: { content: nil, position: Faker::Number.digit } }
+          post :create, params: { question: { content: '', position: Faker::Number.digit } }
         }.to change(Question, :count).by(0)
       end
     end

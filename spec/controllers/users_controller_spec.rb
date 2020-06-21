@@ -45,7 +45,7 @@ describe UsersController do
         post :create, params: { user: { name: name } }
         user = User.find_by(name: name)
 
-        expect(response).to render_template :quiz_question
+        expect(response).to redirect_to user_quiz_question_path(user, question_id: question_five.id)
       end
     end
 
@@ -65,13 +65,26 @@ describe UsersController do
   end
 
   describe 'GET #show' do
-    before { user }
     context 'with id params' do
+      before { get :show, params: { id: user.id } }
       it 'assigns the requested users as @user' do
-        get :show, params: { id: user.id }
-
         expect(assigns(:user)).to eq user
       end
+
+      it 'renders the show template' do
+        expect(response).to render_template :show
+      end
+    end
+  end
+
+  describe '#GET quiz_result' do
+    before { get :quiz_result, params: { id: user.id } }
+    it 'assigns the requested user as @user' do
+      expect(assigns(:user)).to eq user
+    end
+
+    it 'renders the quiz_result template' do
+      expect(response).to render_template :quiz_result
     end
   end
 end

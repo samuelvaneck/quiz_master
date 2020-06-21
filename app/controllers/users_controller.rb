@@ -26,10 +26,9 @@ class UsersController < ApplicationController
   end
 
   def quiz_awnser
-    @user = User.find params[:id]
     awnser = Awnser.find params[:awnser_id]
     # remove any previous awnsers
-    @user.awnsers.delete(awnser) if @user.awnsers.present? && @user&.awnsers&.find(awnser.id)&.present?
+    @user.awnsers.delete(awnser) if @user.awnser_ids.include? awnser.id
     # add the new awnser
     @user.awnsers << awnser
 
@@ -37,13 +36,11 @@ class UsersController < ApplicationController
       next_question = Question.find params[:next_question]
       redirect_to user_quiz_question_path(@user, question_id: next_question.id)
     else
-      render quiz_results
+      redirect_to user_quiz_result_path(@user)
     end
   end
 
-  def quiz_result
-    @user = User.find params[:id]
-  end
+  def quiz_result; end
 
   private
 
