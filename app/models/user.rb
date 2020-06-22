@@ -27,7 +27,7 @@ class User < ApplicationRecord
   end
 
   def process_quiz_score
-    return false if self.quiz_score <= highscore
+    return false if quiz_score <= highscore
 
     update(highscore: quiz_score)
   end
