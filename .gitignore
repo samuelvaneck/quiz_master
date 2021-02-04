@@ -16,11 +16,12 @@ log/*
 capybara-*.html
 .rspec
 /node_modules
-/public/system
-/public/packs
-/public/assets
-/public/uploads
-/public/packs-test
+/public/*
+public/*
+# /public/packs
+# /public/assets
+# /public/uploads
+# /public/packs-test
 /spec/tmp
 **.orig
 dump.rdb
