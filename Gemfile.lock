@@ -125,7 +125,7 @@ GEM
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    puma (4.3.9)
+    puma (5.5.2)
       nio4r (~> 2.0)
     racc (1.5.2)
     rack (2.2.3)
@@ -247,7 +247,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.2)
   pg (>= 0.18, < 2.0)
-  puma (~> 4.3)
+  puma (~> 5.5)
   rails (~> 6.1, >= 6.1.1)
   rails-controller-testing
   rb-readline
